@@ -1,8 +1,39 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import {
+  Inter,
+  M_PLUS_Rounded_1c,
+  Shippori_Mincho,
+  Zen_Maru_Gothic,
+} from "next/font/google";
 import "./globals.css";
+import Navbar from "./navbar";
+//
+// const inter = Inter({
+//   subsets: ["latin"],
+//   display: "swap",
+//   adjustFontFallback: false,
+// });
+// const mPlusRounded1c = M_PLUS_Rounded_1c({
+//   weight: "400",
+//   subsets: ["latin-ext"],
+//   display: "swap",
+//
+//   adjustFontFallback: false,
+// });
+// const zenMaruGothic = Zen_Maru_Gothic({
+//   weight: "400",
+//   subsets: ["latin-ext"],
+//   display: "swap",
+//
+//   adjustFontFallback: false,
+// });
+const shipporiMincho = Shippori_Mincho({
+  weight: "400",
+  subsets: ["latin-ext"],
+  display: "swap",
 
-const inter = Inter({ subsets: ["latin"] });
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +46,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-full bg-neutral-50">
+      <body className={`${shipporiMincho.className} h-full flex`}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
