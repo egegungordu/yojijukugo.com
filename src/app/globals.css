@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-    font-family: 'KulminoituvaRegular';
-    src: url('http://www.miketaylr.com/f/kulminoituva.ttf');
+::selection {
+  color: white;
+  background: #f6993f;
 }
