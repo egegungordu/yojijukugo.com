@@ -24,9 +24,12 @@ export default function Navbar() {
         <Link
           key={href}
           href={href}
-          className={cn("font-semibold bg-black text-white px-2 py-3 hover:bg-neutral-700 transition-colors", {
-            "bg-neutral-50 text-black hover:bg-neutral-50": path === href,
-          })}
+          className={cn(
+            "font-semibold bg-black text-white px-2 py-3 hover:bg-neutral-700 transition-colors",
+            {
+              "bg-neutral-50 text-black hover:bg-neutral-50": path === href,
+            },
+          )}
         >
           {text}
         </Link>

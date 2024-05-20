@@ -1,7 +1,7 @@
 // https://mobile.twitter.com/hieuhlc/status/1164369876825169920
 import { useLayoutEffect, useRef } from "react";
 
-let useAnimationFrame = (cb: (args: { time: number; delta: number }) => void) => {
+let useAnimationFrame = (cb: (args: { time: number; delta: number }) => void, options?: { initialize?: () => void }) => {
   const cbRef = useRef<(args: { time: number; delta: number }) => void>();
   const frame = useRef<number>();
   const init = useRef(performance.now());
@@ -22,6 +22,9 @@ let useAnimationFrame = (cb: (args: { time: number; delta: number }) => void) =>
 
   useLayoutEffect(() => {
     frame.current = requestAnimationFrame(animate);
+
+    options?.initialize?.();
+
     return () => {
       frame.current && cancelAnimationFrame(frame.current);
     };
