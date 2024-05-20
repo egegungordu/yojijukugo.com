@@ -36,7 +36,7 @@ const shipporiMincho = Shippori_Mincho({
 });
 
 export const metadata: Metadata = {
-  title: "Yojijukugo",
+  title: "四字熟語.com",
   description: "Daily dose of Japanese four-character idioms",
 };
 
