@@ -238,9 +238,10 @@ export default function YojijukugoCanvas() {
       ref={canvasRef}
       className="w-full h-full overflow-hidden object-contain"
       style={{
-        // maskImage: "linear-gradient(180deg, white 80%, rgba(0,0,0,0) 99%)",
         maskImage:
-          "radial-gradient(circle at 0 0,white 30%, rgba(0,0,0,0) 100%)",
+          "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
+        WebkitMaskImage:
+          "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
       }}
     />
   );
