@@ -10,11 +10,13 @@ import Navbar from "./_components/navbar";
 import { ThemeProvider } from "./_components/theme-provider";
 import { cn } from "@/lib/utils";
 //
-// const inter = Inter({
-//   subsets: ["latin"],
-//   display: "swap",
-//   adjustFontFallback: false,
-// });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  adjustFontFallback: false,
+  variable: "--font-inter",
+});
+
 // const mPlusRounded1c = M_PLUS_Rounded_1c({
 //   weight: "400",
 //   subsets: ["latin-ext"],
@@ -54,7 +56,7 @@ export default function RootLayout({
       data-font-family={shipporiMincho.style.fontFamily}
     >
       <body
-        className={cn(shipporiMincho.className, "h-full flex")}
+        className={cn(shipporiMincho.className, inter.variable, "h-full flex")}
       >
         <ThemeProvider
           attribute="class"

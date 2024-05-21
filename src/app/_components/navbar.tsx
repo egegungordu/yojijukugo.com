@@ -25,7 +25,7 @@ function ThemeSwitcher({ className }: { className?: string }) {
 
   return (
     <button
-      className={cn("text-white overflow-hidden", className)}
+      className={cn("text-white overflow-hidden p-2", className)}
       suppressHydrationWarning
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
@@ -76,7 +76,7 @@ export default function Navbar() {
         </Link>
       ))}
 
-      <ThemeSwitcher className="mt-4" />
+      <ThemeSwitcher className="mt-auto mb-2" />
     </nav>
   );
 }

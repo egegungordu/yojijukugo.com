@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        inter: ["var(--font-inter)", ...fontFamily.sans],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -67,6 +70,9 @@ const config: Config = {
       animation: {
         "fade-in": "fade-in 0.5s ease-in-out",
         "fade-out": "fade-out 0.5s ease-in-out",
+      },
+      dropShadow: {
+        black: ["0 0 2px rgba(0,0,0,0.5)", "0 0 1px rgba(0,0,0,0.9)"],
       },
     },
   },

@@ -2,8 +2,9 @@
 
 import useAnimationFrame from "@/hooks/use-animation-frame";
 import useWindowMousePosition from "@/hooks/use-window-mouse-position";
-import { useCallback, useLayoutEffect, useMemo, useRef } from "react";
+import { type ComponentProps, useLayoutEffect, useMemo, useRef } from "react";
 import useSize from "@react-hook/size";
+import { cn } from "@/lib/utils";
 
 const LINES = [
   [
@@ -129,11 +130,22 @@ function getFontFamily() {
   return document.documentElement.dataset.fontFamily;
 }
 
-export default function YojijukugoCanvas() {
+type YojijukugoCanvasProps = {
+  fontSize?: number;
+  interactive?: boolean;
+  className?: string;
+} & ComponentProps<"canvas">;
+
+export default function YojijukugoCanvas({
+  fontSize = 104,
+  interactive = true,
+  className,
+  ...props
+}: YojijukugoCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [width, height] = useSize(canvasRef);
   const fontFamily = getFontFamily();
-  const baseSize = 104;
+  const baseSize = fontSize;
   const padding = 1;
   const mousePos = useWindowMousePosition();
   const drawScene = useMemo(
@@ -150,20 +162,14 @@ export default function YojijukugoCanvas() {
         const offset = lastOffset / scale;
 
         const yTranslate =
-          ctx.canvas.height / 2 + 124 * Math.sin(i * 2 + time / 5);
+          ctx.canvas.height / 2 + baseSize * Math.sin(i * 2 + time / 5);
         ctx.translate(0, yTranslate);
 
         ctx.scale(scale * 1.5, scale);
 
-        ctx.fillStyle = "black";
-        ctx.fillRect(
-          (lastOffset + baseSize * scale) / scale - 1,
-          -yTranslate / scale,
-          20,
-          ctx.canvas.height / scale,
-        );
-
-        const mouseInside = mouseXRemainder > 0 && mouseXRemainder < baseSize * scale * 1.5;
+        const mouseInside = !interactive
+          ? false
+          : mouseXRemainder > 0 && mouseXRemainder < baseSize * scale * 1.5;
         mouseXRemainder -= baseSize * scale * 1.5;
 
         let topOffset = 0;
@@ -236,13 +242,11 @@ export default function YojijukugoCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full overflow-hidden object-contain"
-      style={{
-        maskImage:
-          "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
-        WebkitMaskImage:
-          "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
-      }}
+      className={cn(
+        "w-full h-full overflow-hidden object-contain bg-black",
+        className,
+      )}
+      {...props}
     />
   );
 }
