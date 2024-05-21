@@ -59,10 +59,10 @@ export default function About() {
         ご質問やご意見は、GitHubのIssues又は以下のメールアドレスまでご連絡ください。
         <br />
         <a
-          href="mailto:egegungorduu@hotmail.com"
+          href="mailto:yoji@ege.fyi"
           className="underline font-semibold"
         >
-          egegungorduu@hotmail.com
+          yoji@ege.fyi
         </a>
       </p>
     </main>
