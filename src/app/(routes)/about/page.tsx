@@ -1,8 +1,8 @@
-import { LuPaintbrush2, LuCode2, LuBookOpen } from "react-icons/lu";
+import { LuCode2, LuBookOpen, LuLightbulb } from "react-icons/lu";
 
 export default function About() {
   return (
-    <main className="max-w-screen-sm font-inter text-sm flex flex-col py-4">
+    <main className="max-w-screen-sm w-full font-inter text-sm flex flex-col py-4 border-r">
       <h1 className="px-4 sm:px-8 text-xl font-semibold mb-3">About</h1>
 
       <p className="px-4 sm:px-8">ようこそ、四字熟語.comへ！</p>
@@ -41,7 +41,7 @@ export default function About() {
         </li>
 
         <li className="mt-2">
-          <LuPaintbrush2 className="mr-2 inline" />
+          <LuLightbulb className="mr-2 inline" />
           Inspiration:{' '}
           <a
             href="https://x.com/takawo/status/1717099008777465957"

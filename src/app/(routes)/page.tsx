@@ -2,8 +2,8 @@ import YojijukugoCanvas from "./_components/yojijukugo-canvas";
 
 export default function Home() {
   return (
-    <main className="isolate relative h-full flex">
-      <div className="sm:border-r max-w-screen-md flex flex-col py-4">
+    <main className="isolate relative h-full w-full flex">
+      <div className="sm:border-r max-w-screen-sm w-full flex flex-col py-4">
         <div className="font-medium text-center text-muted-foreground px-4 sm:px-8">
           今日の四字熟語
         </div>
