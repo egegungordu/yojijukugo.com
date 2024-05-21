@@ -3,21 +3,57 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const LINKS = [
   { href: "/", text: "home" },
   { href: "/about", text: "about" },
 ];
 
+function ThemeSwitcher({ className }: { className?: string }) {
+  const { setTheme, theme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <button
+      className={cn("text-white overflow-hidden", className)}
+      suppressHydrationWarning
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+    >
+      {theme === "dark" ? (
+        <img
+          key="light"
+          src="/aka.svg"
+          alt="Light mode"
+          className="size-5 text-white transition-transform animate-in fade-in-0 zoom-in-75 duration-200"
+        />
+      ) : (
+        <img
+          key="dark"
+          src="/kura.svg"
+          alt="Dark mode"
+          className="size-5 text-white transition-transform animate-in fade-in-0 zoom-in-75 duration-200"
+        />
+      )}
+    </button>
+  );
+}
+
 export default function Navbar() {
   const path = usePathname();
 
   return (
-    <nav className="h-full shrink-0 bg-gradient-to-b from-black leading-none via-neutral-950 to-neutral-600 flex text-white [writing-mode:vertical-lr] items-center border-r border-black">
+    <nav className="h-full shrink-0 bg-gradient-to-b from-black leading-none via-neutral-950 to-neutral-900 flex [writing-mode:vertical-lr] items-center border-r">
       <Link href="/" className="py-2 w-full flex items-center justify-center">
-        {/*<h1 className="text-xl text-neutral-200 py-2 hover:text-white">
-          四字熟語.com
-        </h1>*/}
         <img
           src="/logo.svg"
           alt="四字熟語.com"
@@ -39,6 +75,8 @@ export default function Navbar() {
           {text}
         </Link>
       ))}
+
+      <ThemeSwitcher className="mt-4" />
     </nav>
   );
 }

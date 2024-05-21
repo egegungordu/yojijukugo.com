@@ -7,6 +7,8 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/navbar";
+import { ThemeProvider } from "./_components/theme-provider";
+import { cn } from "@/lib/utils";
 //
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -48,12 +50,20 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full bg-neutral-50"
+      className="h-full"
       data-font-family={shipporiMincho.style.fontFamily}
     >
-      <body className={`${shipporiMincho.className} h-full flex`}>
-        <Navbar />
-        {children}
+      <body
+        className={cn(shipporiMincho.className, "h-full flex")}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
