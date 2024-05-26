@@ -11,31 +11,11 @@ export default function Home() {
         <div className="mt-4">
           <p className="text-sm text-center">きょしんたんかい</p>
 
-          <div
-            className="mt-2 py-0.5 bg-gradient-to-r from-primary-foreground via-primary to-primary-foreground"
-          >
-            <div className="relative isolate overflow-hidden bg-white">
-              <h2
-                className="text-6xl pt-1 pb-3 text-center text-balance text-white drop-shadow-black tracking-widest px-2"
-                style={{
-                  background:
-                    "linear-gradient(90deg, #ffffff00, #00000044, #ffffff00)",
-                }}
-              >
+          <div className="mt-2 py-0.5">
+            <div className="relative isolate overflow-hidden">
+              <h2 className="text-6xl pt-1 pb-3 text-center text-balance tracking-widest px-2">
                 虚心坦懐
               </h2>
-
-              <YojijukugoCanvas
-                fontSize={64}
-                interactive={false}
-                className="w-full absolute inset-0 -z-10 blur-[2px]"
-                style={{
-                  maskImage:
-                    "radial-gradient(circle at center,white 60%, rgba(0,0,0,0) 110%)",
-                  WebkitMaskImage:
-                    "radial-gradient(circle at center,white 60%, rgba(0,0,0,0) 110%)",
-                }}
-              />
             </div>
           </div>
 
@@ -51,15 +31,15 @@ export default function Home() {
       </div>
 
       <div className="overflow-hidden h-full w-full">
-      <YojijukugoCanvas
-        style={{
-          maskImage:
-            "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
-          WebkitMaskImage:
-            "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
-        }}
-        className="max-sm:hidden animate-in fade-in-0 duration-500"
-      />
+        <YojijukugoCanvas
+          style={{
+            maskImage:
+              "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage:
+              "radial-gradient(circle at 0 0,white 50%, rgba(0,0,0,0) 100%)",
+          }}
+          className="max-sm:hidden animate-in fade-in-0 duration-500"
+        />
       </div>
     </main>
   );
