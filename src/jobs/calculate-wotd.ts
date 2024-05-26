@@ -10,7 +10,7 @@ client.defineJob({
   name: "Calculate word of the day",
   version: "0.0.1",
   trigger: cronTrigger({
-    cron: "* * * * *",
+    cron: "0 0 * * *",
   }),
   run: async (_, io) => {
     let candidateWords = await io.runTask(
