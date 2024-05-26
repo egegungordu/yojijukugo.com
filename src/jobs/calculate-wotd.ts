@@ -46,6 +46,7 @@ client.defineJob({
       wordId: todaysWord.id,
     });
 
-    revalidatePath("/", "page");
+    // Revalidate the home page cache
+    revalidatePath("/");
   },
 });
