@@ -1,6 +1,24 @@
+import { wotd } from "@/db/schema";
 import YojijukugoCanvas from "./_components/yojijukugo-canvas";
+import { db } from "@/db";
+import { desc } from "drizzle-orm";
 
-export default function Home() {
+async function getTodaysWord() {
+  return db.query.wotd.findFirst({
+    orderBy: [desc(wotd.createdAt)],
+    with: {
+      word: true
+    }
+  }).then((wotd) => wotd?.word);
+}
+
+export default async function Home() {
+  const todaysWord = await getTodaysWord();
+
+  if (!todaysWord) {
+    return "zannen"
+  }
+
   return (
     <main className="isolate relative h-full w-full flex">
       <div className="sm:border-r max-w-screen-sm shrink-0 w-full flex flex-col py-4">
@@ -14,15 +32,12 @@ export default function Home() {
           <div className="mt-2 py-0.5">
             <div className="relative isolate overflow-hidden">
               <h2 className="text-6xl pt-1 pb-3 text-center text-balance tracking-widest px-2">
-                虚心坦懐
+                {todaysWord.word}
               </h2>
             </div>
           </div>
 
-          <p className="mt-6 px-4 sm:px-8">
-            ［ト・タル］［文］［形動タリ］意気込みが盛んで、元気いっぱいなさま。「—たる女性チーム」
-            [補説] 「意気軒高」と書くこともある。
-          </p>
+          <p className="mt-6 px-4 sm:px-8">{todaysWord.meaning}</p>
         </div>
 
         <div className="flex items-center justify-center mt-auto text-center text-muted-foreground text-sm px-4 sm:px-6 tracking-tighter">
