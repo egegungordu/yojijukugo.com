@@ -16,7 +16,7 @@ export default async function Home() {
   const todaysWord = await getTodaysWord();
 
   if (!todaysWord) {
-    return "zannen"
+    return "Something went wrong."
   }
 
   return (
@@ -27,7 +27,7 @@ export default async function Home() {
         </div>
 
         <div className="mt-4">
-          <p className="text-sm text-center">きょしんたんかい</p>
+          <p className="text-sm text-center">{todaysWord.reading}</p>
 
           <div className="mt-2 py-0.5">
             <div className="relative isolate overflow-hidden">
