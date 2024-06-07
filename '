@@ -1,0 +1,110 @@
+import { CheerioAPI, load, Element } from "cheerio";
+import parseDejitaruDaijisen from "./dictionary-parsers/dejitaru-daijisen";
+import * as csv from 'fast-csv';
+import * as fs from 'fs';
+
+const WEBLIO_WORD_DIRECTORY_URL =
+  "https://www.weblio.jp/phrase/%E5%9B%9B%E5%AD%97%E7%86%9F%E8%AA%9E_1";
+const WORD_FETCH_INTERVAL = 100;
+
+function getSubdirectoryLinks($: CheerioAPI): string[] {
+  return $(".subCatChildNxt a")
+    .map((_, el) => {
+      return $(el).attr("href");
+    })
+    .get();
+}
+
+function getWordLinks($: CheerioAPI): string[] {
+  return $(".subCatWordsB a")
+    .map((_, el) => {
+      return $(el).attr("href");
+    })
+    .get();
+}
+
+async function fetchHtml(url: string): Promise<CheerioAPI> {
+  const res = await fetch(url);
+  const html = await res.text();
+  return load(html);
+}
+
+function extractEntries(
+  $: CheerioAPI,
+  el: Element,
+  dictionaryName: string,
+): {
+  kanji: string;
+  reading: string;
+  meaning: string;
+  dictionary: string;
+} | null {
+  /* === "デジタル大辞泉" */
+  switch (dictionaryName) {
+    case "デジタル大辞泉":
+      return parseDejitaruDaijisen($, el, dictionaryName);
+    default:
+      return null;
+  }
+}
+
+async function main() {
+  // create a write stream
+  const csvStream = csv.format({ headers: true });
+  csvStream.pipe(fs.createWriteStream('output.csv'));
+
+  // fetch the HTML of the word directory page
+  const $ = await fetchHtml(WEBLIO_WORD_DIRECTORY_URL);
+  const subdirectoryLinks = getSubdirectoryLinks($);
+
+  console.log(`Found ${subdirectoryLinks.length} subdirectories`);
+
+  let totalWords = 0;
+  let totalEntries = 0;
+  let totalParsedEntries = 0;
+
+  const uniqueWordDictionaryPairs = new Set<[string, string]>();
+
+  for (const subdirectoryLink of subdirectoryLinks) {
+    const $ = await fetchHtml(subdirectoryLink);
+
+    const wordLinks = getWordLinks($);
+
+    const subdirectoryName = $(".subCatHead").text().trim();
+
+    for (const wordLink of wordLinks) {
+      const $ = await fetchHtml(wordLink);
+
+      console.log(`[dir(${subdirectoryName}): ${subdirectoryLinks.indexOf(subdirectoryLink) + 1}/${subdirectoryLinks.length}, word:${wordLinks.indexOf(wordLink) + 1}/${wordLinks.length}] - words: ${totalWords}, entries: ${totalEntries}, parsedEntries: ${totalParsedEntries}`);
+
+      const entries = $(".pbarT")
+        .get()
+        .map((el) => {
+          totalEntries += 1;
+          const dictionaryName = $(el).find("a").first().attr("title")!;
+          return extractEntries($, el, dictionaryName)!; // use ! to force the type to be non-null
+        })
+        .filter((entry) => entry !== null);
+
+      totalWords += 1;
+      totalParsedEntries += entries.length;
+
+      // write the entries to the CSV
+      entries.forEach((entry) => {
+        if (uniqueWordDictionaryPairs.has([entry.kanji, entry.dictionary])) {
+          return;
+        }
+        uniqueWordDictionaryPairs.add([entry.kanji, entry.dictionary]);
+        console.log('writing', entry.kanji, entry.dictionary);
+        csvStream.write(entry);
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, WORD_FETCH_INTERVAL));
+    }
+  }
+
+  // close the write stream
+  csvStream.end();
+}
+
+main();

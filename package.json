@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"pnpm dev:next\" \"pnpm dev:trigger\"",
+    "dev": "concurrently --kill-others-on-fail \"pnpm dev:next\" \"pnpm dev:trigger\" \"pnpm db:studio\"",
     "dev:next": "next dev",
     "dev:trigger": "npx @trigger.dev/cli dev",
     "build": "next build",
