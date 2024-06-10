@@ -4,19 +4,21 @@ import { db } from "@/db";
 import { desc } from "drizzle-orm";
 
 async function getTodaysWord() {
-  return db.query.wotd.findFirst({
-    orderBy: [desc(wotd.createdAt)],
-    with: {
-      word: true
-    }
-  }).then((wotd) => wotd?.word);
+  return db.query.wotd
+    .findFirst({
+      orderBy: [desc(wotd.createdAt)],
+      with: {
+        word: true,
+      },
+    })
+    .then((wotd) => wotd?.word);
 }
 
 export default async function Home() {
   const todaysWord = await getTodaysWord();
 
   if (!todaysWord) {
-    return "Something went wrong."
+    return "Something went wrong.";
   }
 
   return (
@@ -37,7 +39,14 @@ export default async function Home() {
             </div>
           </div>
 
-          <p className="mt-6 px-4 sm:px-8">{todaysWord.meaning}</p>
+          <div className="mt-6 px-4 sm:px-8">
+          {todaysWord.meaning &&
+            todaysWord.meaning.split("\n").map((line, index) => (
+              <p key={index}>
+                {line}
+              </p>
+            ))}
+          </div>
         </div>
 
         <div className="flex items-center justify-center mt-auto text-center text-muted-foreground text-sm px-4 sm:px-6 tracking-tighter">
